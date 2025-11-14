@@ -1,0 +1,19 @@
+{
+  "name": "didkey",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "gen": "node gen-didkey.cjs"
+  },
+  "dependencies": {
+    "@noble/curves": "^2.0.1",
+    "@noble/hashes": "^2.0.1",
+    "@noble/secp256k1": "^3.0.0",
+    "@scure/base": "^2.0.0",
+    "bs58": "^6.0.0",
+    "elliptic": "^6.6.1",
+    "ethereum-cryptography": "^3.2.0",
+    "multiformats": "^13.4.1"
+  }
+}
