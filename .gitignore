@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Packaging / builds
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Herramientas
+.coverage
+.pytest_cache/
+.mypy_cache/
+.tox/
+.cache/
+
+# Entornos
+venv/
+.env/
+.venv/
+.envrc
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.eslintcache
+
+# Opcional: directorios de builds
+dist/
+build/
+
+# Si usás monorepo (packages/*)
+packages/*/node_modules/
+
+**/cert_tools.egg-info/
+cert-tools/cert_tools.egg-info
