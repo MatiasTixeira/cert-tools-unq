@@ -69,6 +69,16 @@ La versión V3 de los certificados requiere que el template tenga el siguiente f
 Dentro del @context se define el schema de los campos que se van a usar en el template.
 La propiedad `issuer` define el DID Key será reemplazada automáticamente por la herraminta `cert-issuer` (no cambiar su placeholder).
 
+## Generar unsigned certificates
+
+```bash
+instantiate-certificate-batch -c conf.ini
+```
+
+Se generaran los certificados en el directorio `sample-data/unsigned_certificates`.
+
+
+
 # cert-issuer
 
 cert-issuer es la libreria que se encarga de emitir los certificados.
