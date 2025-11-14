@@ -24,6 +24,7 @@ venv/
 .env/
 .venv/
 .envrc
+**/.env
 
 # Node
 node_modules/
