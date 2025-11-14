@@ -1,6 +1,9 @@
 # DID Key generator
 
 ## Generar DID Key
+
+Ir al módulo `cert-did-key` y ejecutar:
+
 ```bash
 npm install
 npm run gen-didkey
