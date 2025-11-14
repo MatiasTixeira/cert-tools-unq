@@ -1,6 +1,70 @@
+# DID Key generator
+
+## Generar DID Key
+```bash
+npm install
+npm run gen-didkey
+```
+Al ejecutar `npm run gen-didkey` obtendremos un output similar a:
+
+```bash
+DID Key: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
+verification_method: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4#zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
+Eth address (check):  0x8f64f436d9c0806a7662df1541a47e5ff3e36923
+```
+
+El valor de DID Key y verification_method se agregarán al archivo conf.ini del módulo cert-tools y  cert-issuer respectivamente.
+
+En la documentación de cada módulo se detallará la configuración necesaria.
+
+
 # cert-tools-unq
 
 cert-tools ya modificado para nuestro proyecto - Templates y CSV ya hechos
+
+## Configuración
+
+Se requiere tener un archivo conf.ini con la configuración necesaria.
+El archivo conf.ini se encuentra en el directorio `cert-tools/conf.ini`.
+Agregar la propiedad `issuer_id` que será el DID Key que se generó con el comando `npm run gen-didkey` (módulo didkey).
+El valor de `issuer_id` es requerido para la version V3 de los certificados y este valor será coherente con el valor de `verification_method` del módulo `cert-issuer`.
+
+```ini
+issuer_id = did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
+```
+
+## Templates
+
+Se requiere tener un archivo template con la configuración necesaria.
+El archivo template se encuentra en el directorio `cert-tools/sample_data/certificate_templates/test.json`.
+La versión V3 de los certificados requiere que el template tenga el siguiente formato:
+
+```json
+{
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://w3id.org/blockcerts/v3",
+        {
+            "alumniOf": { "@id": "https://schema.org/alumniOf", "@type": "@id" },
+            "finalGrade": "https://schema.org/gradeValue"
+        }
+    ],
+    "type": ["VerifiableCredential", "BlockcertsCredential"],
+    "issuer": "*|ISSUER|*",
+    "issuanceDate": "*|DATE|*",
+    "id": "urn:uuid:*|CERTUID|*",
+    "credentialSubject": {
+        "id": "ecdsa-koblitz-pubkey:*|PUBKEY|*",
+        "alumniOf": {
+            "id": "*|ALUMNI_OF|*"
+        },
+        "finalGrade": "*|FINAL_GRADE|*"
+    },
+    "nonce": "sec:nonce"
+}
+```
+Dentro del @context se define el schema de los campos que se van a usar en el template.
+La propiedad `issuer` define el DID Key será reemplazada automáticamente por la herraminta `cert-issuer` (no cambiar su placeholder).
 
 # cert-issuer
 
@@ -16,7 +80,7 @@ Para su funcionamiento requiere:
     + `DID_KEY` es la DID Key generada en base a la clave privada.
 - Archivo conf.ini con la configuración necesaria.
     + `issuing_address` es la dirección publica de la cuenta que se usará para emitir los certificados.
-    + `verification_method` es el DID Key que se generó con el comando `npm run gen-didkey` (carpeta didkey). 
+    + `verification_method` es el DID Key que se generó con el comando `npm run gen-didkey` (módulo didkey). 
     + `key_file` es el archivo que contiene la clave privada de la cuenta que se usará para emitir los certificados.    
 
 
@@ -55,27 +119,9 @@ sed -i 's/\.getBalance/\.get_balance/g' "$FILE"
 sed -i 's/self\.w3\.eth\.send_raw_transaction(tx)\.hex()/self.w3.eth.send_raw_transaction(HexBytes(tx)).hex()/' "$FILE"
 ```
 
-## Configuración clave privada
-Se necesita tener la clave privada de la cuenta que se va a usar para emitir los certificados.
-La clave privada se instalará en un directorio seguro y obviamente no será parte del repositorio.
-Copia el valor de la clave privada de la cuenta en MetaMask en un archivo, por ej, `~/.certissuer/pk_issuer.txt` y agrega
-a conf.ini la línea la propiedad `key_file`:
-`key_file = ~/.certissuer/pk_issuer.txt`
+### Configuración:  `conf.ini` y `.env`
 
-
-## Generar DID Key
-```bash
-npm install
-npm run gen-didkey
-```
-Al ejecutar `npm run gen-didkey` obtendremos un output similar a:
-
-```bash
-DID Key: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
-verification_method: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4#zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
-Eth address (check):  0x8f64f436d9c0806a7662df1541a47e5ff3e36923
-```
-Agregar al archivo conf.ini las propiedades, por ejemplo:
+Agregar al archivo `conf.ini` las propiedades `issuing_address` y `verification_method`, por ejemplo:
 
 ```ini
 issuing_address = 0x8f64f436d9c0806a7662df1541a47e5ff3e36923    
