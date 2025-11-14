@@ -13,10 +13,10 @@ Al ejecutar `npm run gen-didkey` obtendremos un output similar a:
 ```bash
 DID Key: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
 verification_method: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4#zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
-Eth address (check):  0x8f64f436d9c0806a7662df1541a47e5ff3e36923
+Eth address (check):  0xs8f64f436d9c0806a7662df1541a47e5ff3e36923
 ```
 
-El valor de DID Key y verification_method se agregarán al archivo conf.ini del módulo cert-tools y  cert-issuer respectivamente.
+El valor de DID Key y verification_method se deberán agregar al archivo conf.ini del módulo cert-tools y  cert-issuer respectivamente.
 
 En la documentación de cada módulo se detallará la configuración necesaria.
 
@@ -76,7 +76,6 @@ instantiate-certificate-batch -c conf.ini
 ```
 
 Se generaran los certificados en el directorio `sample-data/unsigned_certificates`.
-
 
 
 # cert-issuer
