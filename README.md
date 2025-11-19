@@ -2,6 +2,9 @@
 
 ## Generar DID Key
 
+La DID Key (Decentralized Identifier), es un identificador que se genera criptográficamente basado en una o más claves públicas. En nuestro caso, de momento por simplicidad, usamos una sola clave.
+Esta herramienta necesita una clave privada para generar el DID (se debe configurar la ruta de acceso a la misma en `conf.ini`), pero solo utilizará la clave privada para inferir la clave pública correspondiente, en sus dos formatos, comprimida y no-comprimida.
+
 Ir al módulo `cert-did-key` y ejecutar:
 
 ```bash
