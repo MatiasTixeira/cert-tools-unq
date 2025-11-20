@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "gen": "node gen-didkey.cjs"
+    "gen": "node gen-didkey.cjs",
+    "from-private-key": "node from-private-key.cjs"
   },
   "dependencies": {
     "@noble/curves": "^2.0.1",
