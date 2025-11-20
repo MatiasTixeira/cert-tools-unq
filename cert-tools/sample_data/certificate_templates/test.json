@@ -8,7 +8,7 @@
         }
     ],
     "type": ["VerifiableCredential", "BlockcertsCredential"],
-    "issuer": "*|ISSUER|*",
+    "issuer": "https://raw.githubusercontent.com/MatiasTixeira/cert-tools-unq/issuerTestConfiguration/cert-did-key/issuer.json",
     "issuanceDate": "*|DATE|*",
     "id": "urn:uuid:*|CERTUID|*",
     "credentialSubject": {
