@@ -1,29 +1,3 @@
-# DID Key generator
-
-## Generar DID Key
-
-La DID Key (Decentralized Identifier), es un identificador que se genera criptográficamente basado en una o más claves públicas. En nuestro caso, de momento por simplicidad, usamos una sola clave.
-Esta herramienta necesita una clave privada para generar el DID (se debe configurar la ruta de acceso a la misma en `conf.ini` bajo la propiedad `key_file`), pero solo utilizará la clave privada para inferir la clave pública correspondiente, en sus dos formatos, comprimida y no-comprimida.
-
-Ir al módulo `cert-did-key` y ejecutar:
-
-```bash
-npm install
-npm run gen-didkey
-```
-Al ejecutar `npm run gen-didkey` obtendremos un output similar a:
-
-```bash
-DID Key: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
-verification_method: did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4#zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
-Eth address (check):  0xs8f64f436d9c0806a7662df1541a47e5ff3e36923
-```
-
-El valor de DID Key y verification_method se deberán agregar al archivo conf.ini del módulo cert-tools y  cert-issuer respectivamente.
-
-En la documentación de cada módulo se detallará la configuración necesaria.
-
-
 # cert-tools-unq
 
 cert-tools ya modificado para nuestro proyecto - Templates y CSV ya hechos
@@ -32,11 +6,34 @@ cert-tools ya modificado para nuestro proyecto - Templates y CSV ya hechos
 
 Se requiere tener un archivo conf.ini con la configuración necesaria.
 El archivo conf.ini se encuentra en el directorio `cert-tools/conf.ini`.
-Agregar la propiedad `issuer_id` que será el DID Key que se generó con el comando `npm run gen-didkey` (módulo didkey).
-El valor de `issuer_id` es requerido para la version V3 de los certificados y este valor será coherente con el valor de `verification_method` del módulo `cert-issuer`.
+Agregar la propiedad `issuer_id` que será la URL del archivo issuer.json que contendrá el profile del emisor.
+De momento por parcticidad para realizar las pruebas se encunetra en el repositorio en la rama `issuerTestConfiguration`:
+
+`https://raw.githubusercontent.com/MatiasTixeira/cert-tools-unq/issuerTestConfiguration/cert-issuer/issuer.json`
+
+El issuer.json contendrá la siguiente informacion
+```json
+{
+  "@context": [
+    "https://w3id.org/openbadges/v2",
+    "https://w3id.org/blockcerts/v3"
+  ],
+  "id": "https://raw.githubusercontent.com/MatiasTixeira/cert-tools-unq/issuerTestConfiguration/cert-did-key/issuer.json",
+  "type": "Profile",
+  "name": "Universidad Nacional de Quilmes",
+  "url": "https://www.unq.edu.ar/",
+  "description": "Issuer de prueba para Blockcerts v3 en Sepolia usando did:key y dirección 0x8f64f4...",
+  "publicKey": [
+    {
+      "id": "ecdsa-koblitz-pubkey:0x8f64f436d9c0806a7662df1541a47e5ff3e36923",
+      "created": "2025-01-01T00:00:00Z"
+    }
+  ]
+}
+```
 
 ```ini
-issuer_id = did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
+issuer_id = https://raw.githubusercontent.com/MatiasTixeira/cert-tools-unq/issuerTestConfiguration/cert-issuer/issuer.json
 ```
 
 ## Templates
@@ -56,7 +53,7 @@ La versión V3 de los certificados requiere que el template tenga el siguiente f
         }
     ],
     "type": ["VerifiableCredential", "BlockcertsCredential"],
-    "issuer": "*|ISSUER|*",
+    "issuer": "https://raw.githubusercontent.com/MatiasTixeira/cert-tools-unq/issuerTestConfiguration/cert-issuer/issuer.json",
     "issuanceDate": "*|DATE|*",
     "id": "urn:uuid:*|CERTUID|*",
     "credentialSubject": {
@@ -70,7 +67,7 @@ La versión V3 de los certificados requiere que el template tenga el siguiente f
 }
 ```
 Dentro del @context se define el schema de los campos que se van a usar en el template.
-La propiedad `issuer` define el DID Key será reemplazada automáticamente por la herraminta `cert-issuer` (no cambiar su placeholder).
+La propiedad `issuer` define la URL del archivo issuer.json que contendrá el profile del emisor.
 
 ## Generar unsigned certificates
 
@@ -89,13 +86,11 @@ Para su funcionamiento requiere:
 
 - Entorno python virtual customizado para poder ejecutar cert-issuer.
 - Clave privada de la cuenta que se usará para emitir los certificados (en un archivo).
-- DID Key generada en base a la clave privada.
 - Configuración de variables de entorno (archivo `.env`).
     + `SEPOLIA_RPC_URL` es la url base de Infura.
-    + `DID_KEY` es la DID Key generada en base a la clave privada.
 - Archivo conf.ini con la configuración necesaria.
     + `issuing_address` es la dirección publica de la cuenta que se usará para emitir los certificados.
-    + `verification_method` es el DID Key que se generó con el comando `npm run gen-didkey` (módulo didkey). 
+    + `verification_method` hará referencia al método de verificación via clave pública del emisor. 
     + `key_file` es el archivo que contiene la clave privada de la cuenta que se usará para emitir los certificados.    
 
 
@@ -138,19 +133,16 @@ sed -i 's/self\.w3\.eth\.send_raw_transaction(tx)\.hex()/self.w3.eth.send_raw_tr
 
 Agregar al archivo `conf.ini` las propiedades `issuing_address` y `verification_method`, por ejemplo:
 
+(0x8f64f436d9c0806a7662df1541a47e5ff3e36923 es la dirección publica de la cuenta que se usará para emitir los certificados)
+
 ```ini
 issuing_address = 0x8f64f436d9c0806a7662df1541a47e5ff3e36923    
-verification_method = did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4#zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4
+verification_method = ecdsa-koblitz-pubkey:0x8f64f436d9c0806a7662df1541a47e5ff3e36923
 ```
 
 `issuing_address` es la dirección publica de la cuenta que se usará para emitir los certificados.
 `verification_method` es el DID Key que se generó con el comando `npm run gen-didkey`.
 
-Agregar la did key como variable de entorno en el archivo `.env`.
-
-```ini
-DID_KEY="did:key:zQ3shMcjd3ALtJBW7XvrHKViqqprG9NKAUnugDHTtqv9BcJr4"
-```
 
 ## Crear API Key de Infura
 Se necesita tener una API Key de Infura para poder emitir los certificados.
@@ -167,7 +159,6 @@ Una vez configurados correctamente los archivos `conf.ini` y `.env`, se puede fi
 ```bash
 ./issue-certificates.sh
 ```
-Por defecto el script buscará los archivos `conf.ini` y `.env` en el directorio actual.
+Por defecto el script buscará el archivo  `.env` en el directorio actual.
 Se puede especifcar la ruta del archivo `.env` con la opción `-e <path-to-env-file>`.
-Se puede especifcar la ruta del archivo `conf.ini` con la opción `-c <path-to-conf-file>`.
 
