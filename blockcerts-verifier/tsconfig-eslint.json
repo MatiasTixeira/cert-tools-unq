@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strictNullChecks": true
+  },
+  "include": [
+    "src",
+    "test",
+    "__mocks__"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

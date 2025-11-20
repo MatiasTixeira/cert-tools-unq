@@ -1,0 +1,24 @@
+@use '../../../shared-styles/settings/variables';
+
+.buv-c-input {
+  font-size: 15px;
+  color: variables.$fontColor;
+  border-radius: 2px 0 0 2px;
+  padding: 12px 15px;
+  background-color: rgb(243 244 245 / 600%);
+  border: solid 1px rgb(3 21 50 / 13%);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.buv-c-input.is-invalid {
+  border: 2px solid #f00;
+}
+
+.buv-c-input::placeholder {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: rgb(3 21 50 / 30%);
+  letter-spacing: -.25px;
+}
+
+@import '../../../shared-styles/utils/a11y';

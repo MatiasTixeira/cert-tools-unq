@@ -1,0 +1,115 @@
+{
+  "name": "@blockcerts/blockcerts-verifier",
+  "version": "0.0.0-dev",
+  "description": "A standalone universal viewer and verifier for blockcerts credentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blockchain-certificates/blockcerts-verifier.git"
+  },
+  "main": "dist/main.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@blockcerts/cert-verifier-js": "^6.33.0",
+    "@blockcerts/cert-verifier-js-v1-legacy": "^4.0.1",
+    "@polymer/lit-element": "0.5.1",
+    "@polymer/polymer": "3.5.2",
+    "@webcomponents/webcomponentsjs": "2.8.0",
+    "autolinker": "^4.0.0",
+    "cssfilter": "0.0.11",
+    "html-canvas": "^0.0.4",
+    "jspdf": "^3.0.1",
+    "lit-html": "0.10.2",
+    "multiformats": "^13.4.1",
+    "proxy-polyfill": "^0.3.0",
+    "pwa-helpers": "^0.8.4",
+    "qrcode-svg": "^1.1.0",
+    "redux": "^5.0.0",
+    "redux-thunk": "^2.3.0",
+    "whatwg-fetch": "^3.0.0",
+    "xss": "^1.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.24.0",
+    "@open-wc/testing": "^4.0.0",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/mocha": "^10.0.10",
+    "@types/qrcode-svg": "^1.1.1",
+    "@types/sinon": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.30.1",
+    "@typescript-eslint/parser": "^8.23.0",
+    "@web/test-runner": "^0.20.1",
+    "codecov": "^3.8.3",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.24.0",
+    "express": "^5.1.0",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.22.4",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-serve": "^3.0.0",
+    "rollup-plugin-visualizer": "^6.0.1",
+    "semantic-release": "^25.0.1",
+    "sinon": "^21.0.0",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard-scss": "^15.0.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.1",
+    "vitest": "^3.1.1",
+    "wc-sass-render": "blockchain-certificates/wc-sass-render"
+  },
+  "scripts": {
+    "build": "rimraf dist && rollup -c rollup.config.mjs",
+    "build:sanitizer": "rollup -c rollup-sanitizer.config.mjs",
+    "test": "npm run test:application",
+    "test:build": "npm run test:e2e",
+    "test:e2e": "tsc -p tsconfig-test.json && web-test-runner && npm run test:e2e:cleanup",
+    "test:e2e:cleanup": "git clean -dfq",
+    "test:application": "vitest run",
+    "test:application:watch": "vitest",
+    "test:coverage": "vitest run --silent --coverage.enabled",
+    "test:coverage:report": "codecov",
+    "start": "concurrently 'rollup -c rollup.dev.config.mjs -w' 'npm run styles:compile:watch' 'npm run start:mock-server'",
+    "start:mock-server": "node test/mock-server",
+    "styles:compile": "sass-render ./src/components/**/*.scss",
+    "styles:compile:watch": "sass-render ./src/components/**/*.scss -w",
+    "lint": "npm run lint:ts && npm run lint:styles",
+    "lint:ts": "eslint . --ext .ts",
+    "lint:styles": "stylelint '**/*.scss'",
+    "semantic-release": "semantic-release",
+    "prepare": "husky install"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "semistandard": {
+    "globals": [
+      "performance",
+      "fetch",
+      "FileReader",
+      "atob",
+      "CustomEvent",
+      "Image",
+      "domainParseStub"
+    ],
+    "ignore": [
+      "sanitizer/sanitizer.js",
+      "test/wct-script/getTestFiles.js",
+      "test/assertions/*",
+      "*-css.js"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+.buv-u-slide-from-right {
+  opacity: 0;
+  transition: right ease .5s, opacity .2s;
+}
+
+.buv-u-slide-from-right.is-active {
+  right: 0;
+  opacity: 1;
+}

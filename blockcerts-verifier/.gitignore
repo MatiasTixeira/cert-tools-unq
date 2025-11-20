@@ -1,0 +1,10 @@
+/coverage
+/node_modules/
+/.idea/
+/dist
+/dev/index.js
+*.DS_Store
+.env
+bundle-stats.htlm
+bundle-stats.html
+package-lock.json
