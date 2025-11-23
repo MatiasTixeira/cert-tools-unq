@@ -22,7 +22,6 @@ dist/*
 build/*
 node_modules/*
 
-requirements.txt
 .idea/*
 *.ini*
 blockcerts testnet bitcoin address.txt
