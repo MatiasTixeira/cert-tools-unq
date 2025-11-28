@@ -3,14 +3,14 @@
     "https://w3id.org/openbadges/v2",
     "https://w3id.org/blockcerts/v3"
   ],
-  "id": "https://cdn.jsdelivr.net/gh/MatiasTixeira/cert-tools-unq@issuerTestConfiguration/cert-issuer/issuer.json",
+  "id": "https://cdn.jsdelivr.net/gh/MatiasTixeira/cert-tools-unq@configWithMatyCredenciales/cert-issuer/issuer.json",
   "type": "Profile",
   "name": "Universidad Nacional de Quilmes",
   "url": "https://www.unq.edu.ar/",
   "description": "Issuer de prueba para Blockcerts v3 en Sepolia usando did:key y dirección 0x8f64f4...",
   "publicKey": [
     {
-      "id": "ecdsa-koblitz-pubkey:0x8f64f436d9c0806a7662df1541a47e5ff3e36923",
+      "id": "ecdsa-koblitz-pubkey:0x8doCa82HUzZPr4iS4GnMLCxhzZwU4gDDy5CsM2RFcspF",
       "created": "2025-01-01T00:00:00Z"
     }
   ]
