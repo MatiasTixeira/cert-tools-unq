@@ -3,7 +3,7 @@
     "https://w3id.org/openbadges/v2",
     "https://w3id.org/blockcerts/v3"
   ],
-  "id": "https://cdn.jsdelivr.net/gh/MatiasTixeira/cert-tools-unq@configWithMatyCredenciales/cert-issuer/issuer.json",
+  "id": "https://raw.githubusercontent.com/MatiasTixeira/cert-tools-unq/configWithMatyCredenciales/cert-issuer/issuer.json",
   "type": "Profile",
   "name": "Universidad Nacional de Quilmes",
   "url": "https://www.unq.edu.ar/",
